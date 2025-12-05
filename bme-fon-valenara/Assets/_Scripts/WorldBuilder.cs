@@ -8,11 +8,19 @@ public class WorldBuilder : MonoBehaviour
     public int Width;
     public int Height;
     private List<GameObject> Cells;
-        
+
+    public int RandomSeed;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (RandomSeed == 0)
+        {
+            RandomSeed = Random.Range(int.MinValue, int.MaxValue);
+        }
+        Random.InitState(RandomSeed);
+
         Cells = new List<GameObject>();
         for (var w = 0; w < Width; w++)
         {
@@ -20,8 +28,20 @@ public class WorldBuilder : MonoBehaviour
             {
                 var newCell = Instantiate(CellPrefab, new Vector3(w - (Width / 2f), h - (Height / 2f), 0), CellPrefab.transform.localRotation);
 
-                var renderered = newCell.GetComponent<MeshRenderer>();
-                renderered.material.color = new Color(w * 1.0f / Width, h * 1.0f / Height, 1.0f);
+                var cellType = Random.Range(0, 2);
+
+                switch (cellType)
+                {
+                    case 0:
+                        newCell.AddComponent<PlainCellScript>();
+                        break;
+                    case 1:
+                        newCell.AddComponent<ForestCellScript>();
+                        break;
+                    default:
+                        Debug.Log($"CellType not one of possible cases: {cellType}");
+                        break;
+                }
 
                 Cells.Add(newCell);
             }
