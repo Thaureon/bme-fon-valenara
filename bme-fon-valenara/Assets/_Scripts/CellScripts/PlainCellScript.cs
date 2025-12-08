@@ -1,14 +1,13 @@
 using UnityEngine;
 
-public class PlainCellScript : MonoBehaviour
+public class PlainCellScript : BaseCellScript
 {
-    public Color GroundColor = new Color(192 / 255.0f, 255 / 255.0f, 109 / 255.0f);
+    public override Color GroundColor { get; set; } = new (192 / 255.0f, 255 / 255.0f, 109 / 255.0f);
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        var groundRender = gameObject.GetComponentInChildren<MeshRenderer>();
-        groundRender.material.color = GroundColor;
+        BaseStart();
     }
 
     // Update is called once per frame

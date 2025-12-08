@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class WaterDeepCellScript : BaseCellScript
+public class RockyCellScript : BaseCellScript
 {
-    public override Color GroundColor { get; set; } = new (0 / 255.0f, 89 / 255.0f, 179 / 255.0f);
+    public override Color GroundColor { get; set; } = new (161 / 255.0f, 163 / 255.0f, 165 / 255.0f);
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

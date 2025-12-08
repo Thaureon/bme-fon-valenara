@@ -28,7 +28,7 @@ public class WorldBuilder : MonoBehaviour
             {
                 var newCell = Instantiate(CellPrefab, new Vector3(w - (Width / 2f), h - (Height / 2f), 0), CellPrefab.transform.localRotation);
 
-                var cellType = Random.Range(0, 4);
+                var cellType = Random.Range(0, 7);
 
                 switch (cellType)
                 {
@@ -43,6 +43,15 @@ public class WorldBuilder : MonoBehaviour
                         break;
                     case 3:
                         newCell.AddComponent<WaterDeepCellScript>();
+                        break;
+                    case 4:
+                        newCell.AddComponent<DesertCellScript>();
+                        break;
+                    case 5:
+                        newCell.AddComponent<RockyCellScript>();
+                        break;
+                    case 6:
+                        newCell.AddComponent<MountainCellScript>();
                         break;
                     default:
                         Debug.Log($"CellType not one of possible cases: {cellType}");
