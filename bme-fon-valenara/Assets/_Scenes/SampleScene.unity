@@ -385,9 +385,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CellPrefab: {fileID: 2962425125507728249, guid: bce33c7e2b4704f4ead600ceee3795c1, type: 3}
-  Width: 20
-  Height: 20
-  RandomSeed: 100
+  Width: 50
+  Height: 50
+  RandomSeed: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

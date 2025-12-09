@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+
+using Random = UnityEngine.Random;
 
 public class WorldBuilder : MonoBehaviour
 {
@@ -17,18 +20,24 @@ public class WorldBuilder : MonoBehaviour
     {
         if (RandomSeed == 0)
         {
-            RandomSeed = Random.Range(int.MinValue, int.MaxValue);
+            RandomSeed = Random.Range(-1000000, 1000000);
         }
-        Random.InitState(RandomSeed);
 
         Cells = new List<GameObject>();
         for (var w = 0; w < Width; w++)
         {
             for (var h = 0; h < Height; h++)
             {
-                var newCell = Instantiate(CellPrefab, new Vector3(w - (Width / 2f), h - (Height / 2f), 0), CellPrefab.transform.localRotation);
+                var newCell = Instantiate(CellPrefab, new Vector3(w - Width / 2f, h - Height / 2f, 0), CellPrefab.transform.localRotation);
 
-                var cellType = Random.Range(0, 7);
+                var sx = (w + RandomSeed) / 20f;
+                var sy = (h + RandomSeed) / 20f;
+
+                var cellType = Math.Floor(Mathf.PerlinNoise(sx, sy) * 7.0f);
+
+                Debug.Log(cellType);
+
+                Debug.Log(Mathf.PerlinNoise((w + RandomSeed) / 20.0f, (h + RandomSeed) / 20.0f));
 
                 switch (cellType)
                 {
