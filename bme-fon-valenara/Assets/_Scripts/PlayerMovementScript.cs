@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovementScript : MonoBehaviour
 {
+    public int Vision;
     public GameObject Player;
     public Camera Camera;
 
@@ -20,8 +21,6 @@ public class PlayerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //var triggered = _moveAction.;
-        //if()
     }
 
     public void MovePlayer(Vector2 newPosition)
@@ -43,6 +42,6 @@ public class PlayerMovementScript : MonoBehaviour
         Player.transform.Translate(translation);
         Camera.transform.Translate(translation);
 
-        WorldManager.GenerateWorld(Player.transform.position);
+        WorldManager.GenerateWorld(Player.transform.position, Vision);
     }
 }

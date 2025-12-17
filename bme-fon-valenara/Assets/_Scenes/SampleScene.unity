@@ -855,6 +855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e73f19addaefd54693c70cc44546388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Vision: 5
   Player: {fileID: 18786428}
   Camera: {fileID: 519420031}
   WorldManager: {fileID: 975263661}
@@ -918,12 +919,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CellPrefab: {fileID: 2962425125507728249, guid: bce33c7e2b4704f4ead600ceee3795c1, type: 3}
-  Width: 50
-  Height: 50
+  BaseRadius: 10
   RandomSeed: 0
   SeedInputField: {fileID: 1367516711}
   CellParent: {fileID: 1643047408}
-  PlayerMovementScript: {fileID: 0}
+  PlayerMovementScript: {fileID: 934927255}
 --- !u!1 &1103975271
 GameObject:
   m_ObjectHideFlags: 0

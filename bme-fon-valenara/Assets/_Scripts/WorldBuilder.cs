@@ -10,9 +10,8 @@ using Random = UnityEngine.Random;
 public class WorldBuilder : MonoBehaviour
 {
     public GameObject CellPrefab;
-    public int Width;
-    public int Height;
-    private Dictionary<(int x, int y), GameObject> _cells;
+    public int BaseRadius;
+    private Dictionary<Vector2, GameObject> _cells;
 
     public int RandomSeed;
     public TMP_InputField SeedInputField;
@@ -23,7 +22,7 @@ public class WorldBuilder : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _cells = new Dictionary<(int x, int y), GameObject>();
+        _cells = new Dictionary<Vector2, GameObject>();
         GenerateWorldWithNewSeed();
     }
 
@@ -56,25 +55,30 @@ public class WorldBuilder : MonoBehaviour
     {
         ClearCellHolder();
 
-        for (var w = 0; w < Width; w++)
+        var totalArea = BaseRadius * 2 + 1;
+
+        for (var x = -BaseRadius; x < totalArea - BaseRadius; x++)
         {
-            for (var h = 0; h < Height; h++)
+            for (var y = -BaseRadius; y < totalArea - BaseRadius; y++)
             {
-                var position = new Vector2(w, h);
+                var position = new Vector2(x, y);
                 AddCell(position);
             }
         }
     }
 
-    public void GenerateWorld(Vector2 newPosition)
+    public void GenerateWorld(Vector2 newPosition, int visionLength)
     {
-        ClearCellHolder();
-        
-        for (var w = 0; w < Width; w++)
+        var totalArea = visionLength * 2 + 1;
+
+        var startPositionX = newPosition.x - visionLength;
+        var startPositionY = newPosition.y - visionLength;
+
+        for (var x = startPositionX; x < totalArea + startPositionX; x++)
         {
-            for (var h = 0; h < Height; h++)
+            for (var y = startPositionY; y < totalArea + startPositionY; y++)
             {
-                var position = new Vector2(w + newPosition.x, h + newPosition.y);
+                var position = new Vector2(x, y);
                 AddCell(position);
             }
         }
@@ -84,8 +88,14 @@ public class WorldBuilder : MonoBehaviour
     {
         var x = (int)position.x;
         var y = (int)position.y;
+        var cellPosition = new Vector2(x, y);
 
-        var newCell = Instantiate(CellPrefab, new Vector3(x - Width / 2f, y - Height / 2f, 0), CellPrefab.transform.localRotation);
+        if (_cells.ContainsKey(cellPosition))
+        {
+            return;
+        }
+
+        var newCell = Instantiate(CellPrefab, new Vector3(position.x, position.y, 0), CellPrefab.transform.localRotation);
 
         newCell.transform.SetParent(CellParent.transform);
 
@@ -98,7 +108,7 @@ public class WorldBuilder : MonoBehaviour
 
         DetermineCell(newCell, cellType);
 
-        _cells.Add((x, y), newCell);
+        _cells.Add(new Vector2(x, y), newCell);
     }
 
     private void DetermineCell(GameObject cell, int cellType)
@@ -134,9 +144,9 @@ public class WorldBuilder : MonoBehaviour
 
     private void ClearCellHolder()
     {
-        foreach (Transform child in CellParent.transform)
+        foreach (var cell in _cells)
         {
-            Destroy(child.gameObject);
+            Destroy(cell.Value);
         }
         _cells.Clear();
     }
