@@ -101,7 +101,7 @@ public class WorldBuilder : MonoBehaviour
 
         var sx = (x + RandomSeed) / 20f;
         var sy = (y + RandomSeed) / 20f;
-        //-477571
+
         var perlinValue = Math.Clamp(Mathf.PerlinNoise(sx, sy), 0.0f, 1.0f);
 
         var cellType = (int)Math.Floor(perlinValue * 7.0f);
