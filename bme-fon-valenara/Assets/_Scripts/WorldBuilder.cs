@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using TMPro;
 
@@ -9,7 +10,6 @@ using Random = UnityEngine.Random;
 
 public class WorldBuilder : MonoBehaviour
 {
-    public GameObject CellPrefab;
     public int BaseRadius;
     private Dictionary<Vector2, GameObject> _cells;
 
@@ -18,6 +18,8 @@ public class WorldBuilder : MonoBehaviour
     public GameObject CellParent;
 
     public PlayerMovementScript PlayerMovementScript;
+
+    public CellLibrary cellLibrary;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -95,10 +97,6 @@ public class WorldBuilder : MonoBehaviour
             return;
         }
 
-        var newCell = Instantiate(CellPrefab, new Vector3(position.x, position.y, 0), CellPrefab.transform.localRotation);
-
-        newCell.transform.SetParent(CellParent.transform);
-
         var sx = (x + RandomSeed) / 20f;
         var sy = (y + RandomSeed) / 20f;
 
@@ -106,40 +104,20 @@ public class WorldBuilder : MonoBehaviour
 
         var cellType = (int)Math.Floor(perlinValue * 7.0f);
 
-        DetermineCell(newCell, cellType);
-
-        _cells.Add(new Vector2(x, y), newCell);
+        DetermineCell(position, cellType);
     }
 
-    private void DetermineCell(GameObject cell, int cellType)
+    private void DetermineCell(Vector2 position, int cellType)
     {
-        switch (cellType)
-        {
-            case 0:
-                cell.AddComponent<PlainCellScript>();
-                break;
-            case 1:
-                cell.AddComponent<ForestCellScript>();
-                break;
-            case 2:
-                cell.AddComponent<WaterShallowCellScript>();
-                break;
-            case 3:
-                cell.AddComponent<WaterDeepCellScript>();
-                break;
-            case 4:
-                cell.AddComponent<DesertCellScript>();
-                break;
-            case 5:
-                cell.AddComponent<RockyCellScript>();
-                break;
-            case 6:
-                cell.AddComponent<MountainCellScript>();
-                break;
-            default:
-                Debug.Log($"CellType not one of possible cases: {cellType}");
-                break;
-        }
+        var cellData = cellLibrary.CellDatas[cellType];
+        var newCell = Instantiate(cellData.Prefab, new Vector3(position.x, position.y, 0), cellData.Prefab.transform.localRotation);
+
+        newCell.transform.SetParent(CellParent.transform);
+
+        newCell.AddComponent<BaseCellScript>();
+        newCell.GetComponent<BaseCellScript>().CellData = cellData;
+
+        _cells.Add(position, newCell);
     }
 
     private void ClearCellHolder()

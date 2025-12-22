@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ForestCell
   m_EditorClassIdentifier: 
   Prefab: {fileID: 2962425125507728249, guid: bce33c7e2b4704f4ead600ceee3795c1, type: 3}
-  groundColor: {r: 0.24313726, g: 0.42352942, b: 0.3764706, a: 0}
+  GroundColor: {r: 0.24313726, g: 0.42352942, b: 0.3764706, a: 0}

@@ -924,6 +924,7 @@ MonoBehaviour:
   SeedInputField: {fileID: 1367516711}
   CellParent: {fileID: 1643047408}
   PlayerMovementScript: {fileID: 934927255}
+  cellLibrary: {fileID: 11400000, guid: 2631f34cd84b8d24a816775f4e6f73da, type: 2}
 --- !u!1 &1103975271
 GameObject:
   m_ObjectHideFlags: 0
