@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Assets._Scripts.Generators;
+
 using TMPro;
 
 using UnityEngine;
@@ -88,28 +90,32 @@ public class WorldBuilder : MonoBehaviour
 
     private void AddCell(Vector2 position)
     {
-        var x = (int)position.x;
-        var y = (int)position.y;
-        var cellPosition = new Vector2(x, y);
-
-        if (_cells.ContainsKey(cellPosition))
+        if (_cells.ContainsKey(position))
         {
             return;
         }
 
-        var sx = (x + RandomSeed) / 20f;
-        var sy = (y + RandomSeed) / 20f;
+        var worldGeneration = DetermineGenerator(GenerationType.PerlinNoise);
 
-        var perlinValue = Math.Clamp(Mathf.PerlinNoise(sx, sy), 0.0f, 1.0f);
+        var generationHeight = worldGeneration.GenerateCellData(position, RandomSeed);
 
-        var cellType = (int)Math.Floor(perlinValue * 7.0f);
-
-        DetermineCell(position, cellType);
+        GenerateCell(position, generationHeight);
     }
 
-    private void DetermineCell(Vector2 position, int cellType)
+    private INoiseGenerator DetermineGenerator(GenerationType type)
     {
-        var cellData = cellLibrary.CellDatas[cellType];
+        switch (type)
+        {
+            case GenerationType.PerlinNoise:
+                return new PerlinNoiseGenerator();
+        }
+
+        return new RandomNoiseGenerator();
+    }
+
+    private void GenerateCell(Vector2 position, float height)
+    {
+        var cellData = cellLibrary.CellDatas.First(x => x.MinHeight < height && x.MaxHeight >= height);
         var newCell = Instantiate(cellData.Prefab, new Vector3(position.x, position.y, 0), cellData.Prefab.transform.localRotation);
 
         newCell.transform.SetParent(CellParent.transform);
