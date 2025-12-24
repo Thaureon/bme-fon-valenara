@@ -15,6 +15,7 @@ public class WorldBuilder : MonoBehaviour
     public int BaseRadius;
     private Dictionary<Vector2, GameObject> _cells;
 
+    public GenerationType GenerationType;
     public int RandomSeed;
     public TMP_InputField SeedInputField;
     public GameObject CellParent;
@@ -95,7 +96,7 @@ public class WorldBuilder : MonoBehaviour
             return;
         }
 
-        var worldGeneration = DetermineGenerator(GenerationType.PerlinNoise);
+        var worldGeneration = DetermineGenerator(GenerationType);
 
         var generationHeight = worldGeneration.GenerateCellData(position, RandomSeed);
 
@@ -108,6 +109,10 @@ public class WorldBuilder : MonoBehaviour
         {
             case GenerationType.PerlinNoise:
                 return new PerlinNoiseGenerator();
+            case GenerationType.WhiteNoise:
+                return new WhiteNoiseGenerator();
+            case GenerationType.SimplexNoise:
+                return new SimplexNoiseGenerator();
         }
 
         return new RandomNoiseGenerator();

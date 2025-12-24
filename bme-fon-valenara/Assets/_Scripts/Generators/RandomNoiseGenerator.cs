@@ -8,14 +8,11 @@ namespace Assets._Scripts.Generators
 
         public float GenerateCellData(Vector2 position, int seed)
         {
-            var x = (int)position.x;
-            var y = (int)position.y;
-            var cellPosition = new Vector2(x, y);
+            var randX = Random.Range(-1.0f, 1.0f) / 2.0f;
 
-            var sx = (x + seed) / 20f;
-            var sy = (y + seed) / 20f;
+            var randY = Random.Range(-1.0f, 1.0f) / 2.0f;
 
-            return Mathf.PerlinNoise(sx, sy);
+            return randX + randY;
         }
     }
 }
