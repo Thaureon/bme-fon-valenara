@@ -6,6 +6,8 @@ namespace Assets._Scripts.Generators
         WhiteNoise,
         ValueNoise,
         PerlinNoise,
+        PerlinNoiseV2,
+        PerlinNoiseV3,
         SimplexNoise,
         VoronoiNoise,
         FractalBrownianMotion

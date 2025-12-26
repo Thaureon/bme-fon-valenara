@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 2962425125507728249, guid: bce33c7e2b4704f4ead600ceee3795c1, type: 3}
   GroundColor: {r: 0.42745098, g: 1, b: 0.42745098, a: 0}
-  MinHeight: -1
-  MaxHeight: 0
+  MinHeight: -2
+  MaxHeight: -0.7

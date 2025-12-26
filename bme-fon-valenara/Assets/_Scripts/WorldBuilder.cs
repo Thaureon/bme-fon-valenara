@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,6 +17,7 @@ public class WorldBuilder : MonoBehaviour
     public GenerationType GenerationType;
     public int RandomSeed;
     public TMP_InputField SeedInputField;
+    public TMP_Dropdown GenerationTypeDropdown;
     public GameObject CellParent;
 
     public PlayerMovementScript PlayerMovementScript;
@@ -50,6 +50,15 @@ public class WorldBuilder : MonoBehaviour
 
     public void GenerateWorldWithNewSeed()
     {
+        SetSeed();
+        GenerateWorld();
+
+        PlayerMovementScript.MovePlayer(new Vector2(0, 0));
+    }
+
+    public void GenerateWorldWithRandomSeed()
+    {
+        SeedInputField.SetTextWithoutNotify("");
         SetSeed();
         GenerateWorld();
 
@@ -96,7 +105,10 @@ public class WorldBuilder : MonoBehaviour
             return;
         }
 
-        var worldGeneration = DetermineGenerator(GenerationType);
+        var generationType = (GenerationType)GenerationTypeDropdown.value;
+        GenerationType = generationType;
+
+        var worldGeneration = DetermineGenerator(generationType);
 
         var generationHeight = worldGeneration.GenerateCellData(position, RandomSeed);
 
@@ -109,6 +121,10 @@ public class WorldBuilder : MonoBehaviour
         {
             case GenerationType.PerlinNoise:
                 return new PerlinNoiseGenerator();
+            case GenerationType.PerlinNoiseV2:
+                return new PerlinNoiseV2Generator();
+            case GenerationType.PerlinNoiseV3:
+                return new PerlinNoiseV3Generator();
             case GenerationType.WhiteNoise:
                 return new WhiteNoiseGenerator();
             case GenerationType.SimplexNoise:
