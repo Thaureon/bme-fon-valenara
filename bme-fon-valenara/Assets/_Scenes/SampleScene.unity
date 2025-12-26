@@ -1763,7 +1763,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 975263661}
         m_TargetAssemblyTypeName: WorldBuilder, Assembly-CSharp
-        m_MethodName: GenerateWorldWithNewSeed
+        m_MethodName: GenerateWorldWithRandomSeed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
