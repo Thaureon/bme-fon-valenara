@@ -37,15 +37,31 @@ public class WorldBuilder : MonoBehaviour
 
         var hasSeed = int.TryParse(randomSeedValue, out RandomSeed);
 
-        if (!hasSeed)
+        if (!hasSeed && randomSeedValue == "")
         {
             RandomSeed = Random.Range(-1000000, 1000000);
+        }
+        else if (!hasSeed)
+        {
+            RandomSeed = GenerateSeedByWord(randomSeedValue);
+            SeedInputField.text = $"{RandomSeed}";
         }
 
         if (string.IsNullOrEmpty(SeedInputField.text))
         {
             SeedInputField.text = $"{RandomSeed}";
         }
+    }
+
+    private int GenerateSeedByWord(string seed)
+    {
+        var newSeed = 0;
+        foreach (var letter in seed)
+        {
+            newSeed *= 31;
+            newSeed += letter;
+        }
+        return newSeed % 20000000 - 10000000;
     }
 
     public void GenerateWorldWithNewSeed()
@@ -129,6 +145,8 @@ public class WorldBuilder : MonoBehaviour
                 return new WhiteNoiseGenerator();
             case GenerationType.SimplexNoise:
                 return new SimplexNoiseGenerator();
+            case GenerationType.CellularNoise:
+                return new CellularNoiseGenerator();
         }
 
         return new RandomNoiseGenerator();

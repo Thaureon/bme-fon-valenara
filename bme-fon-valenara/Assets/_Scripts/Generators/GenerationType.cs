@@ -9,6 +9,7 @@ namespace Assets._Scripts.Generators
         PerlinNoiseV2,
         PerlinNoiseV3,
         SimplexNoise,
+        CellularNoise,
         VoronoiNoise,
         FractalBrownianMotion
     }
