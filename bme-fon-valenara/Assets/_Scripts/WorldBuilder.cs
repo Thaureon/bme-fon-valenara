@@ -135,6 +135,8 @@ public class WorldBuilder : MonoBehaviour
     {
         switch (type)
         {
+            case GenerationType.ValueNoise:
+                return new ValueNoiseGenerator();
             case GenerationType.PerlinNoise:
                 return new PerlinNoiseGenerator();
             case GenerationType.PerlinNoiseV2:
